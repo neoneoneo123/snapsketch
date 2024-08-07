@@ -11,9 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Snapsketch"
+        android:name=".app.SnapsketchApplication"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.ui.ColoringActivity"
+            android:name=".presentation.ui.coloring.ColoringActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.ui.main.MainActivity"
