@@ -1,4 +1,4 @@
-package com.project.snapsketch.presentation.ui
+package com.project.snapsketch.presentation.ui.coloring
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -9,11 +9,11 @@ import com.project.snapsketch.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class ColoringActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_coloring)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
