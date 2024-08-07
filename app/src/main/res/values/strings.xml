@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">snapsketch</string>
+
+    <!-- main -->
+    <string name="main_home">home</string>
+    <string name="main_setting">setting</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
