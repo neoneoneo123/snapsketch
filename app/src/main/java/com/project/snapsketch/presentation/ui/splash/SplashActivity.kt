@@ -1,4 +1,4 @@
-package com.project.snapsketch.presentation.ui
+package com.project.snapsketch.presentation.ui.splash
 
 import android.annotation.SuppressLint
 import android.content.Intent
