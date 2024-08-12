@@ -12,7 +12,7 @@
         android:id="@+id/fcv_nav_container"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph" />
 
@@ -26,7 +26,7 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bnv_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:background="@color/white"
             app:itemActiveIndicatorStyle="@color/transparent"
@@ -42,9 +42,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/blue"
+        android:elevation="0dp"
         android:importantForAccessibility="no"
         android:src="@drawable/ic_camera"
-        app:backgroundTint="@color/blue"
+        app:backgroundTint="@color/white"
         app:borderWidth="3dp"
+        app:elevation="0dp"
         app:layout_anchor="@id/bab_main" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
