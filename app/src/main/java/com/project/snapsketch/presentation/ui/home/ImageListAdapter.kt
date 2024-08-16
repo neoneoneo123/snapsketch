@@ -16,12 +16,16 @@ class ImageListAdapter(
         fun onItemClicked(item: ImageModel)
     }
 
-    class ImageListViewHolder(
+    inner class ImageListViewHolder(
         private val binding: ItemImageBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: ImageModel) {
             binding.ivItem.setImageURI(item.uri)
+
+            binding.root.setOnClickListener {
+                imageItemListener.onItemClicked(item)
+            }
         }
     }
 
@@ -51,7 +55,6 @@ class ImageListAdapter(
             override fun areContentsTheSame(oldItem: ImageModel, newItem: ImageModel): Boolean {
                 return oldItem == newItem
             }
-
         }
     }
 }

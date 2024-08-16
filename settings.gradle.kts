@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "snapsketch"
 include(":app")
+include(":opencv")
