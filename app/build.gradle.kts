@@ -4,6 +4,7 @@ plugins {
     id("kotlin-parcelize")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -60,11 +61,12 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.navigation.dynamic.features.fragment)
-    implementation("com.google.android.material:material:1.12.0")
+
+    //material
+    implementation(libs.material)
 
     //openCV
     implementation(project(":opencv"))
-//    implementation("org.opencv:opencv-android:4.5.3")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
