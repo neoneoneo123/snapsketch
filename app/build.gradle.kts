@@ -30,11 +30,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
     buildFeatures {
         buildConfig = true
@@ -61,6 +61,10 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.navigation.dynamic.features.fragment)
     implementation("com.google.android.material:material:1.12.0")
+
+    //openCV
+    implementation(project(":opencv"))
+//    implementation("org.opencv:opencv-android:4.5.3")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
