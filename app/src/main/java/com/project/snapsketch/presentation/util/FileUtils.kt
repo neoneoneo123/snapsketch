@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Environment
 import com.project.snapsketch.presentation.model.ImageModel
 import org.opencv.android.Utils
+import org.opencv.core.Core
 import org.opencv.core.Mat
 import org.opencv.imgproc.Imgproc
 import java.io.File
@@ -52,7 +53,7 @@ object FileUtils {
         }
     }
 
-    fun uriToBitmap(context: Context, uri: Uri): Bitmap {
+    private fun uriToBitmap(context: Context, uri: Uri): Bitmap {
         val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
         return BitmapFactory.decodeStream(inputStream)
     }
@@ -67,12 +68,16 @@ object FileUtils {
         val edges = Mat()
         Imgproc.Canny(grayMat, edges, th1, th2)
 
-        val resultBitmap = Bitmap.createBitmap(edges.cols(), edges.rows(), Bitmap.Config.ARGB_8888)
-        Utils.matToBitmap(edges, resultBitmap)
+        val invertedEdges = Mat()
+        Core.bitwise_not(edges, invertedEdges)
+
+        val resultBitmap = Bitmap.createBitmap(invertedEdges.cols(), invertedEdges.rows(), Bitmap.Config.ARGB_8888)
+        Utils.matToBitmap(invertedEdges, resultBitmap)
 
         srcMat.release()
         grayMat.release()
         edges.release()
+        invertedEdges.release()
 
         return resultBitmap
     }
