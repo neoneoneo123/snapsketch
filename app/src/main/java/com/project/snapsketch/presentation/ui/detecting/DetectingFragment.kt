@@ -18,8 +18,8 @@ class DetectingFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var originalImageUri: Uri
-    private var th1 = 0.0
-    private var th2 = 0.0
+    private var th1 = 50.0
+    private var th2 = 150.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
