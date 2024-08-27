@@ -10,9 +10,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.project.snapsketch.R
 import com.project.snapsketch.databinding.FragmentHomeBinding
 import com.project.snapsketch.presentation.model.ImageModel
 import com.project.snapsketch.presentation.util.FileUtils
+import com.project.snapsketch.presentation.util.ToastMaker
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,7 +32,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun imageOpen(item: ImageModel) {
-        Toast.makeText(requireContext(), "Image clicked", Toast.LENGTH_SHORT).show()
+        ToastMaker.make(requireContext(), "Image clicked")
+        //TODO: 색칠 화면으로 이동
     }
 
     override fun onCreateView(
@@ -54,7 +57,7 @@ class HomeFragment : Fragment() {
                 uri?.let {
                     goDetecting(uri)
                 } ?: run {
-                    Toast.makeText(requireContext(), "No image selected", Toast.LENGTH_SHORT).show()
+                    ToastMaker.make(requireContext(), R.string.home_no_image)
                 }
             }
 
