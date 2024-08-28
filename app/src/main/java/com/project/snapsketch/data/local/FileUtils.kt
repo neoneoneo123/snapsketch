@@ -1,4 +1,4 @@
-package com.project.snapsketch.presentation.util
+package com.project.snapsketch.data.local
 
 import android.content.Context
 import android.graphics.Bitmap

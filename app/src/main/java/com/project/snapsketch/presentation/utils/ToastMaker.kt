@@ -1,4 +1,4 @@
-package com.project.snapsketch.presentation.util
+package com.project.snapsketch.presentation.utils
 
 import android.content.Context
 import android.widget.Toast

@@ -2,13 +2,12 @@ package com.project.snapsketch.presentation.ui.detecting
 
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.navArgs
+import androidx.fragment.app.Fragment
 import com.project.snapsketch.databinding.FragmentDetectingBinding
-import com.project.snapsketch.presentation.util.FileUtils
+import com.project.snapsketch.data.local.FileUtils
 import dagger.hilt.android.AndroidEntryPoint
 import org.opencv.android.OpenCVLoader
 
@@ -45,8 +44,8 @@ class DetectingFragment : Fragment() {
     }
 
     private fun getDataFromHome() {
-        val args: DetectingFragmentArgs by navArgs()
-        originalImageUri = Uri.parse(args.argsUriString)
+//        val args: DetectingFragmentArgs by navArgs()
+//        originalImageUri = Uri.parse(args.argsUriString)
         updateImage()
     }
 

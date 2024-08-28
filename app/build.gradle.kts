@@ -4,7 +4,6 @@ plugins {
     id("kotlin-parcelize")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
-    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -56,11 +55,6 @@ dependencies {
 
     //Splash
     implementation(libs.androidx.core.splashscreen)
-
-    //jetpack navigation
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
-    implementation(libs.androidx.navigation.dynamic.features.fragment)
 
     //material
     implementation(libs.material)
