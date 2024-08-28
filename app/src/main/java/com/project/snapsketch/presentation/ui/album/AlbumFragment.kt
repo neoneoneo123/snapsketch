@@ -1,11 +1,14 @@
 package com.project.snapsketch.presentation.ui.album
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import com.project.snapsketch.R
+import com.project.snapsketch.presentation.utils.ToastMaker
 import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
@@ -61,3 +64,18 @@ class AlbumFragment : Fragment() {
             }
     }
 }
+
+//private fun setupOpenAlbum() {
+//    val getContent =
+//        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+//            uri?.let {
+//                goAlbum(uri)
+//            } ?: run {
+//                ToastMaker.make(requireContext(), R.string.home_no_image)
+//            }
+//        }
+//
+//    binding.btnHomeAlbum.setOnClickListener {
+//        getContent.launch("image/*")
+//    }
+//}

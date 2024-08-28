@@ -5,7 +5,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.project.snapsketch.R
 import com.project.snapsketch.databinding.ActivityMainBinding
+import com.project.snapsketch.presentation.ui.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupUi() {
         enableEdgeToEdge()
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.clMain) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -32,6 +34,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun goHome() {
+        val homeFragment = HomeFragment()
 
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.cl_main, homeFragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
