@@ -1,6 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Snapsketch" parent="Theme.MaterialComponents.Light.NoActionBar" />
+    <style name="Base.Theme.Snapsketch" parent="Theme.MaterialComponents.Light.NoActionBar" >
+        <item name="android:textViewStyle">@style/customTextViewFontStyle</item>
+        <item name="android:editTextStyle">@style/customEditTextFontStyle</item>
+        <item name="android:radioButtonStyle">@style/customRadioButtonFontStyle</item>
+    </style>
     <style name="Theme.Snapsketch" parent="Base.Theme.Snapsketch" />
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/pink</item>
