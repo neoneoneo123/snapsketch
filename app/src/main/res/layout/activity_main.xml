@@ -49,4 +49,18 @@
         app:borderWidth="3dp"
         app:elevation="0dp"
         app:layout_anchor="@id/bab_main" />
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/pv_camera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_capture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="capture"
+        android:visibility="gone" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

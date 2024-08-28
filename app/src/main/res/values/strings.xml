@@ -7,6 +7,7 @@
 
     <!-- home -->
     <string name="home_no_image">No image selected</string>
+    <string name="home_no_permission">Permissions not granted</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

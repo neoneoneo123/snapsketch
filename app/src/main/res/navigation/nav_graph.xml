@@ -38,4 +38,5 @@
         android:name="com.project.snapsketch.presentation.ui.setting.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" />
+
 </navigation>
