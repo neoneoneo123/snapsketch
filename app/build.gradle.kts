@@ -51,6 +51,7 @@ dependencies {
 
     //Hilt
     implementation(libs.hilt.android)
+    implementation(libs.androidx.exifinterface)
     kapt(libs.hilt.android.compiler)
 
     //Splash
