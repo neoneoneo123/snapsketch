@@ -1,5 +1,6 @@
 package com.project.snapsketch.presentation.ui.main
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.project.snapsketch.R
 import com.project.snapsketch.databinding.ActivityMainBinding
+import com.project.snapsketch.presentation.utils.Constants.CAMERA_PUT_NAME
+import com.project.snapsketch.presentation.ui.detecting.DetectingFragment
 import com.project.snapsketch.presentation.ui.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,6 +41,18 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.cl_main, homeFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    fun goDetecting(imageUri: Uri) {
+        val detectingFragment = DetectingFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(CAMERA_PUT_NAME, imageUri)
+            }
+        }
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.cl_main, detectingFragment)
             .addToBackStack(null)
             .commit()
     }

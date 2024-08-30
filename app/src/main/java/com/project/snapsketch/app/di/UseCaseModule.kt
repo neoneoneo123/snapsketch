@@ -2,7 +2,7 @@ package com.project.snapsketch.app.di
 
 import com.project.snapsketch.domain.repository.LocalRepository
 import com.project.snapsketch.domain.repository.OpencvRepository
-import com.project.snapsketch.domain.usecase.DeleteImagesUseCase
+import com.project.snapsketch.domain.usecase.DeleteImageUseCase
 import com.project.snapsketch.domain.usecase.GetDetectedImageUseCase
 import com.project.snapsketch.domain.usecase.GetImagesUseCase
 import com.project.snapsketch.domain.usecase.SaveImageUseCase
@@ -20,8 +20,8 @@ object UseCaseModule {
     @ViewModelScoped
     fun provideDeleteImageUseCase(
         localRepository: LocalRepository
-    ): DeleteImagesUseCase {
-        return DeleteImagesUseCase(localRepository)
+    ): DeleteImageUseCase {
+        return DeleteImageUseCase(localRepository)
     }
 
     @Provides

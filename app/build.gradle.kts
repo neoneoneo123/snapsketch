@@ -47,12 +47,16 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
+    implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.constraintlayout)
 
     //Hilt
     implementation(libs.hilt.android)
     implementation(libs.androidx.exifinterface)
     kapt(libs.hilt.android.compiler)
+
+    //ViewModel
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     //Splash
     implementation(libs.androidx.core.splashscreen)

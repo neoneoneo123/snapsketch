@@ -1,7 +1,9 @@
 package com.project.snapsketch.presentation.ui.camera
 
 import android.Manifest
+import android.app.Activity
 import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -13,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -20,6 +23,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.project.snapsketch.R
 import com.project.snapsketch.databinding.ActivityCameraBinding
+import com.project.snapsketch.presentation.utils.Constants.CAMERA_PUT_NAME
 import com.project.snapsketch.presentation.utils.ToastMaker
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -41,6 +45,8 @@ class CameraActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setupUi()
+        setupListener()
+        setupCamera()
     }
 
     private fun setupUi() {
@@ -53,14 +59,14 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupListener() {
-//        binding.fabMain.setOnClickListener {
-//            setupCamera()
-//        }
-//
-//        binding.btnCapture.setOnClickListener {
-//            takePhoto()
-//        }
+    private fun setupListener() = with(binding) {
+        ivCameraBack.setOnClickListener {
+            goBackSelecting()
+        }
+
+        ivCameraShutter.setOnClickListener {
+            takePhoto()
+        }
     }
 
     private fun setupCamera() {
@@ -87,11 +93,11 @@ class CameraActivity : AppCompatActivity() {
         cameraProviderFuture.addListener({
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
-//            val preview = Preview.Builder()
-//                .build()
-//                .also {
-//                    it.setSurfaceProvider(binding.pvCamera.surfaceProvider)
-//                }
+            val preview = Preview.Builder()
+                .build()
+                .also {
+                    it.setSurfaceProvider(binding.pvCamera.surfaceProvider)
+                }
 
             imageCapture = ImageCapture.Builder().build()
 
@@ -99,9 +105,9 @@ class CameraActivity : AppCompatActivity() {
 
             try {
                 cameraProvider.unbindAll()
-//                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
             } catch (e: Exception) {
-                Log.e(TAG, "Use case binding failed", e)
+                Log.e(CAMERA_TAG, "Use case binding failed", e)
             }
         }, ContextCompat.getMainExecutor(this))
     }
@@ -109,8 +115,7 @@ class CameraActivity : AppCompatActivity() {
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
 
-        val name = SimpleDateFormat(FILENAME_FORMAT, Locale.US)
-            .format(System.currentTimeMillis())
+        val name = SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis())
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
             put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
@@ -137,7 +142,7 @@ class CameraActivity : AppCompatActivity() {
                 }
 
                 override fun onError(exception: ImageCaptureException) {
-                    Log.e(TAG, "Photo capture failed: ${exception.message}", exception)
+                    Log.e(CAMERA_TAG, "Photo capture failed: ${exception.message}", exception)
                 }
             }
         )
@@ -145,8 +150,17 @@ class CameraActivity : AppCompatActivity() {
 
     private fun goDetecting(savedUri: Uri?) {
         if (savedUri != null) {
-
+            setResult(Activity.RESULT_OK, Intent().apply {
+                putExtra(CAMERA_PUT_NAME, savedUri)
+            })
+            finish()
+        } else {
+            ToastMaker.make(this, R.string.camera_msg_fail_save_photo)
         }
+    }
+
+    private fun goBackSelecting() {
+        finish()
     }
 
     override fun onDestroy() {
@@ -169,7 +183,7 @@ class CameraActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val TAG = "CameraXApp"
+        private const val CAMERA_TAG = "CameraXApp"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = mutableListOf(
