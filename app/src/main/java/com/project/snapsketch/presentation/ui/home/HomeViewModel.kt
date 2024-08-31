@@ -46,13 +46,14 @@ class HomeViewModel @Inject constructor(
             _uiState.update { it.copy(isLoading = true) }
 
             runCatching {
-                getImagesUseCase.invoke()
+                val images = getImagesUseCase.invoke()
+                if (images != null) {
+                    _getImages.update { images }
+                }
             }.onFailure {
                 _uiState.update { it.copy(isLoading = false) }
                 _getImagesEvent.emit(DefaultEvent.Failure(R.string.home_msg_fail_get_images))
             }.onSuccess {
-                _getImages.update { it ?: emptyList() }
-
                 _uiState.update { it.copy(isLoading = false) }
                 _getImagesEvent.emit(DefaultEvent.Success)
             }
@@ -64,7 +65,7 @@ class HomeViewModel @Inject constructor(
             _uiState.update { it.copy(isLoading = true) }
 
             runCatching {
-                deleteImageUseCase(imageEntity.uri.toString())
+                deleteImageUseCase(imageEntity.uriString.toString())
             }.onFailure {
                 _uiState.update { it.copy(isLoading = false) }
                 _deleteImageEvent.emit(DefaultEvent.Failure(R.string.home_msg_fail_get_images))

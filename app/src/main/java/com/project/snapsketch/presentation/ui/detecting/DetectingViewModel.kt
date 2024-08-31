@@ -53,7 +53,7 @@ class DetectingViewModel @Inject constructor(
                     val bitmap = detectedImage.toBitmap()
                     _getDetectedImage.update { bitmap }
                 } else {
-                    _getDetectedImageEvent.emit(DefaultEvent.Failure(R.string.detecting_msg_fail_process))
+                    _getDetectedImageEvent.emit(DefaultEvent.Failure(R.string.detecting_msg_fail_convert))
                 }
             }.onFailure {
                 _uiState.update { it.copy(isLoading = false) }

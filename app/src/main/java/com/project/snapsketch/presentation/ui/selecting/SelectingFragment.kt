@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
@@ -31,14 +32,34 @@ class SelectingFragment : Fragment() {
     private val selectingAdapter by lazy {
         SelectingAdapter(object : SelectingAdapter.SelectingItemListener {
             override fun onItemClicked(item: ImageEntity) {
-                if (item.uri != null) {
-                    goDetecting(item.uri)
+                if (item.uriString != null) {
+                    goDetecting(item.uriString.toUri())
                 } else {
                     ToastMaker.make(requireContext(), R.string.selecting_msg_fail_get_images)
                 }
             }
         })
     }
+
+    private val startCameraForResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val imageUri = result.data?.getParcelableExtra<Uri>(CAMERA_PUT_NAME)
+            if (imageUri != null) {
+                (activity as? MainActivity)?.goDetecting(imageUri)
+            }
+        }
+    }
+
+    private val getContent =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
+                goDetecting(uri)
+            } ?: run {
+                ToastMaker.make(requireContext(), R.string.selecting_msg_no_image)
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,20 +85,11 @@ class SelectingFragment : Fragment() {
             goBackHome()
         }
 
-        ivSelectingCamera.setOnClickListener {
+        clSelectingCamera.setOnClickListener {
             goCamera()
         }
 
-        ivSelectingAlbum.setOnClickListener {
-            val getContent =
-                registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-                    uri?.let {
-                        goDetecting(uri)
-                    } ?: run {
-                        ToastMaker.make(requireContext(), R.string.selecting_msg_no_image)
-                    }
-                }
-
+        clSelectingAlbum.setOnClickListener {
             getContent.launch("image/*")
         }
     }
@@ -87,17 +99,6 @@ class SelectingFragment : Fragment() {
     }
 
     private fun goCamera() {
-        val startCameraForResult = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val imageUri = result.data?.getParcelableExtra<Uri>(CAMERA_PUT_NAME)
-                if (imageUri != null) {
-                    (activity as? MainActivity)?.goDetecting(imageUri)
-                }
-            }
-        }
-
         val intent = Intent(requireContext(), CameraActivity::class.java)
         startCameraForResult.launch(intent)
     }

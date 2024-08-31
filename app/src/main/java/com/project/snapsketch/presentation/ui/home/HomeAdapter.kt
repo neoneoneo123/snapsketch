@@ -2,6 +2,7 @@ package com.project.snapsketch.presentation.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +24,16 @@ class HomeAdapter(
 
         fun bind(item: ImageEntity) {
             binding.apply {
-                ivItem.setImageURI(item.uri)
+                ivItem.setImageURI(item.uriString?.toUri())
+
+                val dateLocation = if (item.location != null) {
+                    "${item.date} - ${item.location}"
+                } else {
+                    "${item.date}"
+                }
+
+                tvDateItem.text = dateLocation
+
                 ivItem.setOnClickListener {
                     homeItemListener.onItemClicked(item)
                 }
@@ -54,7 +64,7 @@ class HomeAdapter(
     companion object {
         private val DIFF_UTIL = object : DiffUtil.ItemCallback<ImageEntity>() {
             override fun areItemsTheSame(oldItem: ImageEntity, newItem: ImageEntity): Boolean {
-                return oldItem.uri == newItem.uri
+                return oldItem.uriString == newItem.uriString
             }
 
             override fun areContentsTheSame(oldItem: ImageEntity, newItem: ImageEntity): Boolean {

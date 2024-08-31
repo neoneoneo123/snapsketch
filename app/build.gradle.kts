@@ -64,6 +64,9 @@ dependencies {
     //material
     implementation(libs.material)
 
+    //Glide
+    implementation(libs.glide)
+
     //openCV
     implementation(project(":opencv"))
 

@@ -12,11 +12,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.project.snapsketch.databinding.FragmentDetectingBinding
+import com.project.snapsketch.presentation.shared.DefaultEvent
+import com.project.snapsketch.presentation.ui.loading.LoadingDialog
 import com.project.snapsketch.presentation.utils.Constants.BUNDLE_KEY_URI
 import com.project.snapsketch.presentation.utils.Constants.CAMERA_PUT_NAME
 import com.project.snapsketch.presentation.utils.Constants.REQUEST_KEY_FOR_DETECTING
-import com.project.snapsketch.presentation.ui.loading.LoadingDialog
-import com.project.snapsketch.presentation.shared.DefaultEvent
 import com.project.snapsketch.presentation.utils.ToastMaker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -31,7 +31,7 @@ class DetectingFragment : Fragment() {
 
     private val viewmodel: DetectingViewModel by viewModels()
 
-    private lateinit var originalImageUri: Uri
+    private lateinit var imageUri: Uri
     private var th1 = 50.0
     private var th2 = 150.0
 
@@ -55,47 +55,34 @@ class DetectingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         getData()
-        setupUi()
         setupListener()
         setupObserver()
     }
 
     private fun getData() {
+        //from selecting
         setFragmentResultListener(REQUEST_KEY_FOR_DETECTING) { _, bundle ->
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                val uri = bundle.getParcelable(BUNDLE_KEY_URI, Uri::class.java)
-
-                if (uri != null) {
-                    originalImageUri = uri
-                }
+            val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                bundle.getParcelable(BUNDLE_KEY_URI, Uri::class.java)
             } else {
-                val uri = bundle.getParcelable(BUNDLE_KEY_URI) as Uri?
-
-                if (uri != null) {
-                    originalImageUri = uri
-                }
+                bundle.getParcelable(BUNDLE_KEY_URI) as? Uri
+            }
+            uri?.let {
+                imageUri = it
+                updateImage()
             }
         }
 
-        setFragmentResultListener(CAMERA_PUT_NAME) { _, bundle ->
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                val uri = bundle.getParcelable(BUNDLE_KEY_URI, Uri::class.java)
-
-                if (uri != null) {
-                    originalImageUri = uri
-                }
-            } else {
-                val uri = bundle.getParcelable(BUNDLE_KEY_URI) as Uri?
-
-                if (uri != null) {
-                    originalImageUri = uri
-                }
-            }
+        //from camera
+        val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getParcelable(CAMERA_PUT_NAME, Uri::class.java)
+        } else {
+            arguments?.getParcelable(CAMERA_PUT_NAME) as? Uri
         }
-    }
-
-    private fun setupUi() = with(binding) {
-        ivDetected.setImageURI(originalImageUri)
+        uri?.let {
+            imageUri = it
+            updateImage()
+        }
     }
 
     private fun setupListener() = with(binding) {
@@ -110,8 +97,12 @@ class DetectingFragment : Fragment() {
         }
 
         ivDetectingNext.setOnClickListener {
-            viewmodel.saveImage(originalImageUri, requireContext())
+            viewmodel.saveImage(imageUri, requireContext())
         }
+    }
+
+    private fun updateImage() {
+        viewmodel.detectingImage(imageUri, th1, th2, requireContext())
     }
 
     private fun setupObserver() {
@@ -150,10 +141,6 @@ class DetectingFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun updateImage() {
-        viewmodel.detectingImage(originalImageUri, th1, th2, requireContext())
     }
 
     override fun onDestroyView() {

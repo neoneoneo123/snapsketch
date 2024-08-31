@@ -7,13 +7,12 @@ import android.net.Uri
 import java.io.ByteArrayOutputStream
 
 object ImageConverter {
-
     fun Uri.toBytes(context: Context): ByteArray? {
         return try {
             val inputStream = context.contentResolver.openInputStream(this)
             val bitmap = BitmapFactory.decodeStream(inputStream)
             val outputStream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, ByteArrayOutputStream())
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
             outputStream.toByteArray()
         } catch (e: Exception) {
             e.printStackTrace()

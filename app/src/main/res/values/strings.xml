@@ -23,6 +23,7 @@
     <string name="detecting_title">Sketch</string>
     <string name="detecting_msg_fail_get_image">Failed to get a image</string>
     <string name="detecting_msg_fail_process">Failed to process image</string>
+    <string name="detecting_msg_fail_convert">Failed to convert image</string>
     <string name="detecting_msg_fail_save">Failed to save image</string>
 
     <!-- camera -->

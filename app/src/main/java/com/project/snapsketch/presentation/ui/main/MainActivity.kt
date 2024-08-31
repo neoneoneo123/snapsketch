@@ -1,6 +1,8 @@
 package com.project.snapsketch.presentation.ui.main
 
+import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -43,6 +45,24 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.cl_main, homeFragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val uri = intent.getParcelableExtra(CAMERA_PUT_NAME, Uri::class.java)
+
+            if (uri != null) {
+                goDetecting(uri)
+            }
+        } else {
+            val uri = intent.getParcelableExtra<Uri>(CAMERA_PUT_NAME)
+
+            if (uri != null) {
+                goDetecting(uri)
+            }
+        }
     }
 
     fun goDetecting(imageUri: Uri) {

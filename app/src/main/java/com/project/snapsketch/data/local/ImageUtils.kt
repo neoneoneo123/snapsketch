@@ -5,18 +5,20 @@ import android.location.Geocoder
 import android.net.Uri
 import androidx.exifinterface.media.ExifInterface
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 
 object ImageUtils {
-    fun getImageMetadata(context: Context, uri: Uri): Pair<Date?, String?>? {
+    fun getImageMetadata(context: Context, uri: Uri): Pair<String?, String?>? {
         try {
             context.contentResolver.openInputStream(uri)?.use { inputStream ->
                 val exif = ExifInterface(inputStream)
 
                 val dateString = exif.getAttribute(ExifInterface.TAG_DATETIME)
                 val date = dateString?.let {
-                    SimpleDateFormat("yyyy:MM:dd", Locale.getDefault()).parse(it)
+                    val inputFormat = SimpleDateFormat("yyyy:MM:dd HH:mm:ss", Locale.getDefault())
+                    val outputFormat = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
+                    val parsedDate = inputFormat.parse(it)
+                    parsedDate?.let { outputFormat.format(it) }
                 }
 
                 val latitude =

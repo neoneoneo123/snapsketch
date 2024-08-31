@@ -5,13 +5,13 @@ import com.project.snapsketch.domain.entity.ImageEntity
 
 object DataMapper {
     fun ImageDto.toEntity() = ImageEntity(
-        uri = uri,
+        uriString = uriString,
         date = date,
         location = location,
     )
 
     fun ImageEntity.toDto() = ImageDto(
-        uri = uri,
+        uriString = uriString,
         date = date,
         location = location,
     )

@@ -2,6 +2,7 @@ package com.project.snapsketch.presentation.ui.selecting
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +23,7 @@ class SelectingAdapter(
 
         fun bind(item: ImageEntity) {
             binding.apply {
-                ivSelectingItem.setImageURI(item.uri)
+                ivSelectingItem.setImageURI(item.uriString?.toUri())
                 ivSelectingItem.setOnClickListener {
                     selectingItemListener.onItemClicked(item)
                 }
@@ -50,7 +51,7 @@ class SelectingAdapter(
     companion object {
         private val DIFF_UTIL = object : DiffUtil.ItemCallback<ImageEntity>() {
             override fun areItemsTheSame(oldItem: ImageEntity, newItem: ImageEntity): Boolean {
-                return oldItem.uri == newItem.uri
+                return oldItem.uriString == newItem.uriString
             }
 
             override fun areContentsTheSame(oldItem: ImageEntity, newItem: ImageEntity): Boolean {

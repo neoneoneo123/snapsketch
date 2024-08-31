@@ -1,10 +1,12 @@
 package com.project.snapsketch.data.local
 
+import android.content.ContentUris
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
+import android.provider.MediaStore
 import com.project.snapsketch.data.dto.ImageDto
 import com.project.snapsketch.data.local.ImageUtils.getImageMetadata
 import kotlinx.coroutines.Dispatchers
@@ -21,29 +23,40 @@ class LocalDataSourceImpl @Inject constructor(
 
     override suspend fun getImages(): List<ImageDto>? {
         return try {
-            val directory =
-                File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), DIRECTORY_NAME)
+            val images = mutableListOf<ImageDto>()
+            val projection = arrayOf(
+                MediaStore.Images.Media._ID,
+                MediaStore.Images.Media.DISPLAY_NAME,
+                MediaStore.Images.Media.DATE_TAKEN
+            )
 
-            if (directory.exists() && directory.isDirectory) {
-                directory.listFiles { file -> file.extension == "png" }
-                    ?.mapNotNull { file ->
-                        val uri = Uri.fromFile(file)
-                        val metadata = getImageMetadata(context, uri)
+            val sortOrder = "${MediaStore.Images.Media.DATE_TAKEN} DESC"
 
-                        ImageDto(
-                            uri,
-                            metadata?.first,
-                            metadata?.second
-                        )
-                    } ?: emptyList()
-            } else {
-                emptyList()
+            val cursor = context.contentResolver.query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, sortOrder
+            )
+
+            cursor?.use {
+                val idColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+
+                while (it.moveToNext()) {
+                    val id = it.getLong(idColumn)
+                    val contentUri =
+                        ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
+
+                    val metadata = getImageMetadata(context, contentUri)
+
+                    images.add(ImageDto(contentUri.toString(), metadata?.first, metadata?.second))
+                }
             }
+
+            images
         } catch (e: Exception) {
             e.printStackTrace()
             null
         }
     }
+
 
     override suspend fun deleteImages(uriString: String) {
         try {
