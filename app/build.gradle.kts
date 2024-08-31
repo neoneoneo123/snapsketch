@@ -4,7 +4,6 @@ plugins {
     id("kotlin-parcelize")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
-    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -48,22 +47,25 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
+    implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.constraintlayout)
 
     //Hilt
     implementation(libs.hilt.android)
+    implementation(libs.androidx.exifinterface)
     kapt(libs.hilt.android.compiler)
+
+    //ViewModel
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     //Splash
     implementation(libs.androidx.core.splashscreen)
 
-    //jetpack navigation
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
-    implementation(libs.androidx.navigation.dynamic.features.fragment)
-
     //material
     implementation(libs.material)
+
+    //Glide
+    implementation(libs.glide)
 
     //openCV
     implementation(project(":opencv"))
