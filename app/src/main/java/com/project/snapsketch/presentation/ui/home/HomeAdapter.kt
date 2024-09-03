@@ -25,14 +25,7 @@ class HomeAdapter(
         fun bind(item: ImageEntity) {
             binding.apply {
                 ivItem.setImageURI(item.uriString?.toUri())
-
-                val dateLocation = if (item.location != null) {
-                    "${item.date} - ${item.location}"
-                } else {
-                    "${item.date}"
-                }
-
-                tvDateItem.text = dateLocation
+                tvDateItem.text = item.date
 
                 ivItem.setOnClickListener {
                     homeItemListener.onItemClicked(item)
