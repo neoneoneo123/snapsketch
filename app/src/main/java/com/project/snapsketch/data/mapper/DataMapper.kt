@@ -7,12 +7,10 @@ object DataMapper {
     fun ImageDto.toEntity() = ImageEntity(
         uriString = uriString,
         date = date,
-        location = location,
     )
 
     fun ImageEntity.toDto() = ImageDto(
         uriString = uriString,
         date = date,
-        location = location,
     )
 }

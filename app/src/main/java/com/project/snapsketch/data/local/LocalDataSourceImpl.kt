@@ -46,7 +46,7 @@ class LocalDataSourceImpl @Inject constructor(
 
                     val metadata = getImageMetadata(context, contentUri)
 
-                    images.add(ImageDto(contentUri.toString(), metadata?.first, metadata?.second))
+                    images.add(ImageDto(contentUri.toString(), metadata))
                 }
             }
 
